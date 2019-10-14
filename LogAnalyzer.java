@@ -109,6 +109,26 @@ public class LogAnalyzer
     }
     
     /**
+     * This will find the buesiest 2 hour window
+     * @return the first hour of the two hour period that has the most logs
+     */
+    public int busiestTwoHours()
+    {
+        int theBusiestHour = 0;
+        int mostNumberOfLogs = 0;
+        
+        for(int i=1; hourCounts.length > i; i++)
+        {
+            if((hourCounts[i] + hourCounts[i-1]) > mostNumberOfLogs)
+            {
+                theBusiestHour = i-1;
+                mostNumberOfLogs = (hourCounts[i] + hourCounts[i-1]);
+            }
+        }
+        return theBusiestHour;
+    }
+    
+    /**
      * This will retunr the quietest hour if there are multiple hours with the same ammount of logs
      * only the first quietest hour will be returned
      * @return theQuietestHour the hour with the least ammount of logs
