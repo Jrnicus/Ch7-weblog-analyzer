@@ -93,7 +93,7 @@ public class LogAnalyzer
      * This will look at all the logs and let you know what
      * the busiest hour or hours are.
      */
-    public void busiestHour()
+    public void printBusiestHour()
     {
         int theBusiestHour = 0;
         boolean multipleBusiestHours = false;
