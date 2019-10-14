@@ -90,8 +90,46 @@ public class LogAnalyzer
     }
     
     /**
+     * This will return the busiest hour if there are multiple hours with the same ammount of logs
+     * then only the first busiest hour will be returned
+     * @return theBusiestHour the hour with the most logs
+     */
+    public int busiestHour()
+    {
+        int theBusiestHour = 0;
+        
+        for(int i=1; hourCounts.length > i; i++)
+        {
+            if(hourCounts[i] > hourCounts[theBusiestHour])
+            {
+                theBusiestHour = i;
+            }
+        }
+        return theBusiestHour;
+    }
+    
+    /**
+     * This will retunr the quietest hour if there are multiple hours with the same ammount of logs
+     * only the first quietest hour will be returned
+     * @return theQuietestHour the hour with the least ammount of logs
+     */
+    public int quietestHour()
+    {
+        int theQuietestHour = 0;
+        
+        for(int i=1; hourCounts.length > i; i++)
+        {
+            if (hourCounts[i] < hourCounts[theQuietestHour])
+            {
+                theQuietestHour = i;
+            }
+        }
+        return theQuietestHour;
+    }
+    
+    /**
      * This will look at all the logs and let you know what
-     * the busiest hour or hours are.
+     * the busiest hour or hours are if there are mor then one.
      */
     public void printBusiestHour()
     {
