@@ -62,6 +62,7 @@ public class LogAnalyzer
      */
     public void analyzeHourlyData()
     {
+        reader.reset();
         while(reader.hasNext()) {
             LogEntry entry = reader.next();
             int hour = entry.getHour();
@@ -74,11 +75,12 @@ public class LogAnalyzer
      */
     public void analyzeDailyData()
     {
+        reader.reset();
         while(reader.hasNext())
         {
             LogEntry entry = reader.next();
             int day = entry.getDay();
-            dayCounts[day]++;
+            dayCounts[day-1]++;
         }
     }
     
@@ -87,11 +89,12 @@ public class LogAnalyzer
      */
     public void analyzeMonthlyData()
     {
+        reader.reset();
         while(reader.hasNext())
         {
             LogEntry entry = reader.next();
             int month = entry.getMonth();
-            monthCounts[month]++;
+            monthCounts[month-1]++;
         }
     }
     
