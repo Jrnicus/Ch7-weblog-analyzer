@@ -20,11 +20,11 @@ public class LogEntry implements Comparable<LogEntry>
     // At which index in dataValues the different fields
     // from a log line are stored.
     private static final int YEAR = 0, MONTH = 1, DAY = 2,
-                             HOUR = 3, MINUTE = 4;
+                             HOUR = 3, MINUTE = 4, CODE = 5;
     // The number of fields. If more fields are added, e.g. for
     // seconds or a status code, then this value must be increased
     // to match.
-    private static final int NUMBER_OF_FIELDS = 5;
+    private static final int NUMBER_OF_FIELDS = 6;
                       
     /**
      * Decompose a log line so that the individual fields
@@ -51,7 +51,7 @@ public class LogEntry implements Comparable<LogEntry>
      * @param hour The hour (0-23)
      * @param minute The minute (0-59)
      */
-    public LogEntry(int year, int month, int day, int hour, int minute)
+    public LogEntry(int year, int month, int day, int hour, int minute, int code)
     {
         // The array to store the data for a single line.
         dataValues = new int[NUMBER_OF_FIELDS];
@@ -60,6 +60,7 @@ public class LogEntry implements Comparable<LogEntry>
         dataValues[DAY] = day;
         dataValues[HOUR] = hour;
         dataValues[MINUTE] = minute;
+        dataValues[CODE] = code;
         setWhen();
     }
     
@@ -106,6 +107,15 @@ public class LogEntry implements Comparable<LogEntry>
     public int getYear()
     {
         return dataValues[YEAR];
+    }
+    
+    /**
+     * Return the code.
+     * @return The code field from the log line.
+     */
+    public int getCode()
+    {
+        return dataValues[CODE];
     }
     
     /**

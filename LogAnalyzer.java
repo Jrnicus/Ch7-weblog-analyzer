@@ -154,6 +154,7 @@ public class LogAnalyzer
     /**
      * This will figure out what the avarge ammount of logs per a month is
      * and make a array list of the avarge for each month
+     * The avrages will be stored as ints so the avarge might be a little off missing their decimal points.
      */
     public void averageAccessesPerMonth()
     {
