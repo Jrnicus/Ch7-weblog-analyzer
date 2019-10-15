@@ -14,6 +14,8 @@ public class LogAnalyzer
     private int[] dayCounts;
     // Where to calculate the monthly access counts.
     private int[] monthCounts;
+    // Where to calculate the avarge monthly access counts.
+    private int[] monthlyAverages;
     // Where to calculate access counts for each day of the week.
     private int[] dayOfTheWeekCounts;
     // Where to calculate access counts for each year.
@@ -38,6 +40,8 @@ public class LogAnalyzer
         // An array to hold access counts for years
         // Only goes up to 5 years because thats the most we are working with right now
         yearCounts = new int [5];
+        // An array to hold avrage monthly access counts
+        monthlyAverages = new int[12];
         // Create the reader to obtain the data.
         reader = new LogfileReader();
     }
@@ -52,6 +56,7 @@ public class LogAnalyzer
         monthCounts = new int [12];
         dayOfTheWeekCounts = new int [7];
         yearCounts = new int [5];
+        monthlyAverages = new int[12];
         
         reader = new LogfileReader(fileName);
         
@@ -62,6 +67,7 @@ public class LogAnalyzer
         analyzeMonthlyData();
         analyzeDayOfTheWeekData();
         analyzeYearlyData();
+        averageAccessesPerMonth();
     }
 
     /**
@@ -142,6 +148,27 @@ public class LogAnalyzer
             LogEntry entry = reader.next();
             int year = entry.getYear();
             yearCounts[year-2015]++;
+        }
+    }
+    
+    /**
+     * This will figure out what the avarge ammount of logs per a month is
+     * and make a array list of the avarge for each month
+     */
+    public void averageAccessesPerMonth()
+    {
+        int numberOfYears = 0;
+        
+        for(int i=0; yearCounts.length > i; i++)
+        {
+            if(yearCounts[i] > 0)
+            {
+                numberOfYears++;
+            }
+        }
+        for(int i=0; monthlyAverages.length > i; i++)
+        {
+            monthlyAverages[i] = (monthCounts[i] / numberOfYears);
         }
     }
 
