@@ -10,6 +10,12 @@ public class LogAnalyzer
 {
     // Where to calculate the hourly access counts.
     private int[] hourCounts;
+    // Where to calculate the daily access counts.
+    private int[] dayCounts;
+    // Where to calculate the monthly access counts.
+    private int[] monthCounts;
+    // Where to calculate access counts for each day of the week.
+    private int[] dayOfTheWeekCounts;
     // Use a LogfileReader to access the data.
     private LogfileReader reader;
 
@@ -21,6 +27,12 @@ public class LogAnalyzer
         // Create the array object to hold the hourly
         // access counts.
         hourCounts = new int[24];
+        // An array to hold daily access counts
+        dayCounts = new int[28];
+        // An array to hold monthly access counts
+        monthCounts = new int[12];
+        // An array to hold access counts for days of the week
+        dayOfTheWeekCounts = new int [7];
         // Create the reader to obtain the data.
         reader = new LogfileReader();
     }
@@ -31,13 +43,18 @@ public class LogAnalyzer
     public LogAnalyzer(String fileName)
     {
         hourCounts = new int[24];
+        dayCounts = new int [28];
+        monthCounts = new int [12];
+        dayOfTheWeekCounts = new int [7];
         
         reader = new LogfileReader(fileName);
         
-        // We can fill out the array list right away because we have
+        // We can fill out the array lists right away because we have
         // all the data in the file
         analyzeHourlyData();
-        
+        analyzeDailyData();
+        analyzeMonthlyData();
+        analyzeDayOfTheWeekData();
     }
 
     /**
@@ -49,6 +66,58 @@ public class LogAnalyzer
             LogEntry entry = reader.next();
             int hour = entry.getHour();
             hourCounts[hour]++;
+        }
+    }
+    
+    /**
+     * Analyze the daily access data from the log file.
+     */
+    public void analyzeDailyData()
+    {
+        while(reader.hasNext())
+        {
+            LogEntry entry = reader.next();
+            int day = entry.getDay();
+            dayCounts[day]++;
+        }
+    }
+    
+    /**
+     * Analyze the monthly access data from the log file
+     */
+    public void analyzeMonthlyData()
+    {
+        while(reader.hasNext())
+        {
+            LogEntry entry = reader.next();
+            int month = entry.getMonth();
+            monthCounts[month]++;
+        }
+    }
+    
+    /**
+     * Analyze the data from the log files for each day of the week
+     */
+    public void analyzeDayOfTheWeekData()
+    {
+        for(int i=0; dayCounts.length > i; i++)
+        {
+            if(i < 7)
+            {
+                dayOfTheWeekCounts[i] += dayCounts[i];
+            }
+            if((i > 6) && (i < 14))
+            {
+                dayOfTheWeekCounts[i-7] += dayCounts[i];
+            }
+            if((i > 13) && (i < 21))
+            {
+                dayOfTheWeekCounts[i-14] += dayCounts[i];
+            }
+            if(i >20)
+            {
+                dayOfTheWeekCounts[i-21] += dayCounts[i];
+            }
         }
     }
 
