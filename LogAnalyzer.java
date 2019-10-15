@@ -201,7 +201,7 @@ public class LogAnalyzer
     }
     
     /**
-     * This will retunr the quietest hour if there are multiple hours with the same ammount of logs
+     * This will return the quietest hour if there are multiple hours with the same ammount of logs
      * only the first quietest hour will be returned
      * @return theQuietestHour the hour with the least ammount of logs
      */
@@ -245,7 +245,7 @@ public class LogAnalyzer
             System.out.print("The Busiest Hours are ");
             for(int i=0; hourCounts.length > i; i++)
             {
-                if(hourCounts[1] == hourCounts[theBusiestHour])
+                if(hourCounts[i] == hourCounts[theBusiestHour])
                 {
                     System.out.print(i + ", ");
                 }
@@ -259,7 +259,40 @@ public class LogAnalyzer
     }
     
     /**
-     * 
+     * This will return the day with the most ammount of total logs from all months
+     * if there is more then one day with the same ammount of logs only the first will be returned
+     * @return the day with the most ammount of total logs
      */
+    public int busiestDay()
+    {
+        int theBusiestDay = 0;
+        
+        for(int i=1; dayCounts.length > i; i++)
+        {
+            if(dayCounts[i] > dayCounts[theBusiestDay])
+            {
+                theBusiestDay = i;
+            }
+        }
+        return theBusiestDay;
+    }
     
+    /**
+     * This will return the day with the least ammount of total logs from all months
+     * if there is more then one day with the same ammount of logs only the first will be returned
+     * @return the day with the least ammount of total logs
+     */
+    public int quietestDay()
+    {
+        int theQuiestestDay = 0;
+        
+        for(int i=1; dayCounts.length > i; i++)
+        {
+            if(dayCounts[i] > dayCounts[theQuiestestDay])
+            {
+                theQuiestestDay = i;
+            }
+        }
+        return theQuiestestDay;
+    }
 }
