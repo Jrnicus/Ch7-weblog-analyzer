@@ -16,6 +16,8 @@ public class LogAnalyzer
     private int[] monthCounts;
     // Where to calculate access counts for each day of the week.
     private int[] dayOfTheWeekCounts;
+    // Where to calculate access counts for each year.
+    private int[] yearCounts;
     // Use a LogfileReader to access the data.
     private LogfileReader reader;
 
@@ -33,6 +35,9 @@ public class LogAnalyzer
         monthCounts = new int[12];
         // An array to hold access counts for days of the week
         dayOfTheWeekCounts = new int [7];
+        // An array to hold access counts for years
+        // Only goes up to 5 years because thats the most we are working with right now
+        yearCounts = new int [5];
         // Create the reader to obtain the data.
         reader = new LogfileReader();
     }
@@ -46,6 +51,7 @@ public class LogAnalyzer
         dayCounts = new int [28];
         monthCounts = new int [12];
         dayOfTheWeekCounts = new int [7];
+        yearCounts = new int [5];
         
         reader = new LogfileReader(fileName);
         
@@ -55,6 +61,7 @@ public class LogAnalyzer
         analyzeDailyData();
         analyzeMonthlyData();
         analyzeDayOfTheWeekData();
+        analyzeYearlyData();
     }
 
     /**
@@ -121,6 +128,20 @@ public class LogAnalyzer
             {
                 dayOfTheWeekCounts[i-21] += dayCounts[i];
             }
+        }
+    }
+    
+    /**
+     * Analyze the yearly access data from the log file
+     */
+    public void analyzeYearlyData()
+    {
+        reader.reset();
+        while(reader.hasNext())
+        {
+            LogEntry entry = reader.next();
+            int year = entry.getYear();
+            yearCounts[year-2015]++;
         }
     }
 
@@ -274,7 +295,7 @@ public class LogAnalyzer
                 theBusiestDay = i;
             }
         }
-        return theBusiestDay;
+        return (theBusiestDay + 1);
     }
     
     /**
@@ -288,11 +309,49 @@ public class LogAnalyzer
         
         for(int i=1; dayCounts.length > i; i++)
         {
-            if(dayCounts[i] > dayCounts[theQuiestestDay])
+            if(dayCounts[i] < dayCounts[theQuiestestDay])
             {
                 theQuiestestDay = i;
             }
         }
-        return theQuiestestDay;
+        return (theQuiestestDay + 1);
+    }
+    
+    /**
+     * This will return the month with the most ammount of total logs
+     * if there is more then one month with the same ammount of logs only the first will be returned
+     * @return the month withe the most logs
+     */
+    public int busiestMonth()
+    {
+        int theBusiestMonth = 0;
+        
+        for(int i=1; monthCounts.length > i; i++)
+        {
+            if(monthCounts[i] > monthCounts[theBusiestMonth])
+            {
+                theBusiestMonth = i;
+            }
+        }
+        return (theBusiestMonth + 1);
+    }
+    
+    /**
+     * This will return the month with the least ammount of total logs
+     * if there is more then one month with the same ammount of logs only the first will be returned
+     * @return the month withe the least logs
+     */
+    public int quietestMonth()
+    {
+        int theQuietestMonth = 0;
+        
+        for(int i=1; monthCounts.length > i; i++)
+        {
+            if(monthCounts[i] < monthCounts[theQuietestMonth])
+            {
+                theQuietestMonth = i;
+            }
+        }
+        return (theQuietestMonth + 1);
     }
 }
