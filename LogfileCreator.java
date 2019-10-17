@@ -70,11 +70,11 @@ public class LogfileCreator
             {
                 codes[i] = 403;
             }
-            if(5 > i)
+            else if(5 > i)
             {
                 codes[i] = 404;
             }
-            if (4 < i)
+            else
             {
                 codes[i] = 200;
             }

@@ -1,3 +1,6 @@
+// for rounding the monthly code avrgaes
+import java.lang.Math;
+
 /**
  * Read web server data and analyse hourly access patterns.
  * 
@@ -172,6 +175,54 @@ public class LogAnalyzer
             monthlyAverages[i] = (monthCounts[i] / numberOfYears);
         }
     }
+    
+    /**
+     * This will take a year and then tell you what the avarge for each code was per a month
+     * @param int year for the year you want to search
+     */
+    public void codeCountsPerMonth(int searchYear)
+    {
+        int ok = 0;
+        int notFound = 0;
+        int forbidden = 0;
+        int code = 0;
+        
+        reader.reset();
+        while(reader.hasNext())
+        {
+            LogEntry entry = reader.next();
+            int year = entry.getYear();
+            
+            if(year == searchYear)
+            {
+                code = entry.getCode();
+                
+                if(code == 200)
+                {
+                    ok++;
+                }
+                else if(code == 404)
+                {
+                    notFound++;
+                }
+                else
+                {
+                    forbidden++;
+                }
+            }
+        }
+        // for simplicity assume every year in the log has 12 months
+        // Also wont be exscat because ints but lets you a whole number how of avarges access codes
+        int okMonthlyAvg = (ok / 12);
+        int notFoundMonthlyAvg = (notFound / 12);
+        int forbiddenMonthlyAvg = (forbidden / 12);
+        
+        System.out.println("The avarge monthly codes in " + searchYear + " per a log are as follows.");
+        System.out.println("200 OK -           " + okMonthlyAvg);
+        System.out.println("404 Not Found -    " + notFoundMonthlyAvg);
+        System.out.println("403 Forbidden -    " + forbiddenMonthlyAvg);
+    }
+        
 
     /**
      * Print the hourly counts.
